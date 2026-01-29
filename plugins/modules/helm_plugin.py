@@ -48,6 +48,12 @@ options:
     required: false
     type: str
     version_added: 2.3.0
+  verify:
+    description: 
+      - verify the plugin signature before installing (default true)
+    required: false
+    type: bool
+    version_added: 6.2.1
 extends_documentation_fragment:
   - kubernetes.core.helm_common_options
 """
@@ -133,6 +139,9 @@ def argument_spec():
             plugin_version=dict(
                 type="str",
             ),
+            verify=dict(
+                type="bool",
+            },
             state=dict(
                 type="str",
                 default="present",
@@ -173,6 +182,9 @@ def main():
         plugin_version = module.params.get("plugin_version")
         if plugin_version is not None:
             helm_cmd_common += " --version=%s" % plugin_version
+        verify = module.params.get("verify")
+        if verify is not None: 
+            helm_cmd_command += " --verify=" + "true" if verify else "false" 
         if not module.check_mode:
             rc, out, err = module.run_helm_command(
                 helm_cmd_common, fails_on_error=False
