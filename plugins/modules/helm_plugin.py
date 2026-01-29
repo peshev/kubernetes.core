@@ -184,7 +184,7 @@ def main():
             helm_cmd_common += " --version=%s" % plugin_version
         verify = module.params.get("verify")
         if verify is not None: 
-            helm_cmd_common += " --verify=" + "true" if verify else "false" 
+            helm_cmd_common += " --verify=" + ("true" if verify else "false")
         if not module.check_mode:
             rc, out, err = module.run_helm_command(
                 helm_cmd_common, fails_on_error=False
