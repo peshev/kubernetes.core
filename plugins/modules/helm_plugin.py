@@ -141,7 +141,7 @@ def argument_spec():
             ),
             verify=dict(
                 type="bool",
-            },
+            ),
             state=dict(
                 type="str",
                 default="present",
